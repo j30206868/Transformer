@@ -7,7 +7,6 @@ import torch.nn.functional as F
 from Optim import CosineWithRestarts
 from Batch import create_masks
 import dill as pickle
-
 def train_model(model, opt):
     
     print("training model...")
@@ -25,11 +24,15 @@ def train_model(model, opt):
         
         if opt.checkpoint > 0:
             torch.save(model.state_dict(), 'weights/model_weights')
-                    
+
         for i, batch in enumerate(opt.train): 
 
             src = batch.src.transpose(0,1)
             trg = batch.trg.transpose(0,1)
+
+            src = src.cuda()
+            trg = trg.cuda()
+
             trg_input = trg[:, :-1]
             src_mask, trg_mask = create_masks(src, trg_input, opt)
             preds = model(src, trg_input, src_mask, trg_mask)

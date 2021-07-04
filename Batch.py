@@ -1,5 +1,5 @@
 import torch
-from torchtext import data
+from torchtext import data, legacy
 import numpy as np
 from torch.autograd import Variable
 
@@ -31,12 +31,12 @@ def create_masks(src, trg, opt):
 # patch on Torchtext's batching process that makes it more efficient
 # from http://nlp.seas.harvard.edu/2018/04/03/attention.html#position-wise-feed-forward-networks
 
-class MyIterator(data.Iterator):
+class MyIterator(legacy.data.Iterator):
     def create_batches(self):
         if self.train:
             def pool(d, random_shuffler):
-                for p in data.batch(d, self.batch_size * 100):
-                    p_batch = data.batch(
+                for p in legacy.data.batch(d, self.batch_size * 100):
+                    p_batch = legacy.data.batch(
                         sorted(p, key=self.sort_key),
                         self.batch_size, self.batch_size_fn)
                     for b in random_shuffler(list(p_batch)):
@@ -45,7 +45,7 @@ class MyIterator(data.Iterator):
             
         else:
             self.batches = []
-            for b in data.batch(self.data(), self.batch_size,
+            for b in legacy.data.batch(self.data(), self.batch_size,
                                           self.batch_size_fn):
                 self.batches.append(sorted(b, key=self.sort_key))
 

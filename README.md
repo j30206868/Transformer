@@ -32,7 +32,7 @@ German : 'de'<br />
 
 For example, to train tan English->French translator on the datasets provided in the data folder, you would run the following:
 ```
-python train.py -src_data data/english.txt -trg_data data/french.txt -src_lang en -trg_lang fr
+python train.py -src_data data/english.txt -trg_data data/french.txt -src_lang en_core_web_sm -trg_lang fr_core_news_sm
 ```
 Additional parameters:<br />
 -epochs : how many epochs to train data for (default=2)<br />
@@ -51,7 +51,7 @@ Additional parameters:<br />
 # Training and Translating
 
 ```
-python train.py -src_data data/english.txt -trg_data data/french.txt -src_lang en -trg_lang fr -epochs 10
+python train.py -src_data data/english.txt -trg_data data/french.txt -src_lang en_core_web_sm -trg_lang fr_core_news_sm -epochs 10
 ```
 This code gave the following results on a K100 GPU with 8bg RAM:
 
